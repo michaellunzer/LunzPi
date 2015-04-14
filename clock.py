@@ -28,7 +28,12 @@ font = ImageFont.load("helvR08.pil")
 
 #print "Current temp is " + gettemp(url)  +" degrees."
 count = 0
-while (count < 100):
+
+while True:
+    
+    
+    #time.sleep(1000)
+    
     white = (255,255,255)
     red = (255,0,0)
     black = (0,0,0)
@@ -48,17 +53,23 @@ while (count < 100):
     #time.sleep(2)
 
 #Weather Area:
+    
 
-    yahoo_result = pywapi.get_weather_from_yahoo('97210', 'imperial')
+
+    if count % 1000 == 0:
+        yahoo_result = pywapi.get_weather_from_yahoo('97210', 'imperial')
+        
+    count+=1
     
-    print "Yahoo says: It is " + string.lower(yahoo_result['condition']['text']) + " and " + yahoo_result['condition']['temp'] + "F now in Portland.\n\n"
-    
-    #count +=1
-    #print count
+    #print "Yahoo says: It is " + string.lower(yahoo_result['condition']['text']) + " and " + yahoo_result['condition']['temp'] + "F now in Portland.\n\n"
+
+    print(count)
     
     weather_condition = string.lower(yahoo_result['condition']['text']) 
     
     weather_temp = yahoo_result['condition']['temp']
+    
+    #print(yahoo_result)
     
     #print weather_temp
     
@@ -135,39 +146,40 @@ while (count < 100):
     
 #MPC Volume Area:
 
-   # def get_mpc_status():
+    # def get_mpc_status():
     #mpc_status = os.getenv(mpc_status, os.system("mpc status"))
     #mpc_status2 = str(mpc_status)
     #print mpc_status
     #return "mpc_status[7:10]: ", mpc_status[7:10]
 
     #get_mpc_status()
-
-   # def display_volume():  
-    volume = subprocess.check_output("mpc status | grep volume", shell=True, stderr=subprocess.STDOUT)  
-    volume = volume[7:volume.find("%")+1]
-    #print volume
     
-    #volume = " 98%"
+   # def display_volume():  
+    '''volume = subprocess.check_output("mpc status | grep volume", shell=True, stderr=subprocess.STDOUT)  
+    volume = volume[9:volume.find("%")]
+    volume = int(volume)
+    print volume
+    
+    #volume = "13%"
     
   
-    if (volume < " 6.25%"):
-        draw.line((0,15) + (0 ,15), fill=128)
+    if volume <= 6:
+        draw.line([(0,15), (0 ,15)], fill=128)
         print volume
-    elif (" 6.26%" < volume < " 12.5%"):
+    elif volume <= 12:
         draw.line((0,14) + (0 ,15), fill=128)
-    elif (volume < " 18.75%"):
+    elif volume <= 18:
         draw.line((0,13) + (0 ,15), fill=128)
-    elif (volume < " 25%"):
+    elif volume <= 25:
         draw.line((0,12) + (0 ,15), fill=128)
-    elif (volume < " 31.25%"):
+    elif volume <= 31:
         draw.line((0,11) + (0 ,15), fill=128)
-    elif (volume < " 50%"):
+    elif volume <= 50:
         draw.line((0,14) + (0 ,15), fill=128)
    
     else:
         draw.text((6,-1), volume, font=font, fill="orange")
         print volume
-
-
+    '''
+    
     matrix.SetImage(image.im.id)
