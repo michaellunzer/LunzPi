@@ -169,18 +169,10 @@ while True:
 
     
     mpcstatus = subprocess.check_output("mpc status", shell=True, stderr=subprocess.STDOUT)
-    print(repr(mpcstatus))
-    match = re.search(r'(\d+)\%', mpcstatus)
-    #print(match)
-    
-    """print(repr(mpcstatus))
-    print(type(mpcstatus))"""
-    
-    print(repr(match))
-    print(type(match))
-    
+
+    match = re.search(r' (\d+)\%', mpcstatus)
  
-    
+ 
     if match:
         volume = int(match.groups()[0])
         
@@ -224,6 +216,92 @@ while True:
         else:
             draw.text((6,-1), str(volume), font=font, fill="orange")
             print('volume outside range (else)')
+    
+    #ProgressBar Area:
+    mpcstatus2 = subprocess.check_output("mpc status", shell=True, stderr=subprocess.STDOUT)
+    match2 = re.search(r'\((\d+)\%\)', mpcstatus2)
+    
+    print(match2)
+    
+    print(mpcstatus2)
+    
+    
+    if match2:
+        progressbar = int(match2.groups()[0])
+        
+        print("progressbar = {progressbar}".format(progressbar = progressbar))
+        
+         
+        if progressbar <= 0:
+            print("progressbar is less than 0%")    
+        elif progressbar <= 3.125:
+            draw.line((0,15) + (0 ,15), fill="purple")
+        elif progressbar <= 6.25:
+            draw.line((0,15) + (1 ,15), fill="purple")
+        elif progressbar <= 9.375:
+            draw.line((0,15) + (2 ,15), fill="purple")
+        elif progressbar <= 12.5:
+            draw.line((0,15) + (3 ,15), fill="purple")
+        elif progressbar <= 15.625:
+            draw.line((0,15) + (4 ,15), fill="purple")
+        elif progressbar <= 18.75:
+            draw.line((0,15) + (5 ,15), fill="purple")
+        elif progressbar <= 21.875:
+            draw.line((0,15) + (6 ,15), fill="purple")
+        elif progressbar <= 25:
+            draw.line((0,15) + (7 ,15), fill="purple")
+        elif progressbar <= 28.125:
+            draw.line((0,15) + (8 ,15), fill="purple")
+        elif progressbar <= 31.25:
+            draw.line((0,15) + (9 ,15), fill="purple")
+        elif progressbar <= 34.375:
+            draw.line((0,15) + (10 ,15), fill="purple")
+        elif progressbar <= 37.5:
+            draw.line((0,15) + (11 ,15), fill="purple")
+        elif progressbar <= 40.625:
+            draw.line((0,15) + (12 ,15), fill="purple")
+        elif progressbar <= 43.75:
+            draw.line((0,15) + (13 ,15), fill="purple")
+        elif progressbar <= 46.875:
+            draw.line((0,15) + (14 ,15), fill="purple")
+        elif progressbar <= 50:
+            draw.line((0,15) + (15 ,15), fill="purple")
+        elif progressbar <= 53.125:
+            draw.line((0,15) + (16 ,15), fill="purple")
+        elif progressbar <= 56.25:
+            draw.line((0,15) + (17 ,15), fill="purple")
+        elif progressbar <= 59.375:
+            draw.line((0,15) + (18 ,15), fill="purple")
+        elif progressbar <= 62.5:
+            draw.line((0,15) + (19 ,15), fill="purple")
+        elif progressbar <= 65.625:
+            draw.line((0,15) + (20 ,15), fill="purple")
+        elif progressbar <= 68.75:
+            draw.line((0,15) + (21 ,15), fill="purple")
+        elif progressbar <= 71.875:
+            draw.line((0,15) + (22 ,15), fill="purple")
+        elif progressbar <= 75:
+            draw.line((0,15) + (23 ,15), fill="purple")
+        elif progressbar <= 78.125:
+            draw.line((0,15) + (24 ,15), fill="purple")
+        elif progressbar <= 81.25:
+            draw.line((0,15) + (25 ,15), fill="purple")
+        elif progressbar <= 84.375:
+            draw.line((0,15) + (26 ,15), fill="purple")
+        elif progressbar <= 87.5:
+            draw.line((0,15) + (27 ,15), fill="purple")
+        elif progressbar <= 90.625:
+            draw.line((0,15) + (28 ,15), fill="purple")
+        elif progressbar <= 93.75:
+            draw.line((0,15) + (29 ,15), fill="purple")
+        elif progressbar <= 96.875:
+            draw.line((0,15) + (30 ,15), fill="purple")
+        elif progressbar <= 100:
+            draw.line((0,15) + (31 ,15), fill="purple")
+        else:
+            draw.text((6,-1), str(progressbar), font=font, fill="orange")
+            print('progressbar outside range (else)')
+    
     
     
     if image.im == oldimage:
