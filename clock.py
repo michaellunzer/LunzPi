@@ -20,15 +20,7 @@ from rgbmatrix import Adafruit_RGBmatrix
 
 matrix = Adafruit_RGBmatrix(16, 1)
 font = ImageFont.load("helvR08.pil")
-#url  = "http://api.thingspeak.com/channels/15486/feed.csv?key=1X5610SMHNUIF9XL"
-#def gettemp(url):
-#    response = urllib.urlopen(url)
-#    cr = csv.reader(response)
-#    rows=list(cr)
-#    row1=rows[100]
-#    return row1[2]
 
-#print "Current temp is " + gettemp(url)  +" degrees."
 count = 0
 volume = 0
 
@@ -55,14 +47,7 @@ while True:
     draw = ImageDraw.Draw(image)
     drawstring1 = time.strftime("%I:%M") 
     drawstring2 = time.strftime("%p")
-    #"Current temp is " + gettemp(url)  +" degrees."
-    
-    #for n in range(32, -image.size[0], -1): # Scroll R to L
-    #matrix.SetImage(image.im.id) #, n, 0)
-    #time.sleep(5)
-    #matrix.Clear()
-    #time.sleep(2)
-
+   
 #Weather Area:
     
     #print(count)
@@ -161,13 +146,7 @@ while True:
     
 #MPC Volume Area:
     
-    #volume = subprocess.check_output("mpc status | grep volume", shell=True, stderr=subprocess.STDOUT)  
-    #time.sleep(1)
-    #volume = volume[7:volume.find("%")]
-    #volume = int(volume)
-    #volume = int(re.search(r"\d+\%", volume)[:-1])
-
-    
+        
     mpcstatus = subprocess.check_output("mpc status", shell=True, stderr=subprocess.STDOUT)
 
     match = re.search(r' (\d+)\%', mpcstatus)
@@ -217,7 +196,7 @@ while True:
             draw.text((6,-1), str(volume), font=font, fill="orange")
             print('volume outside range (else)')
     
-    #ProgressBar Area:
+#ProgressBar Area:
     mpcstatus2 = subprocess.check_output("mpc status", shell=True, stderr=subprocess.STDOUT)
     match2 = re.search(r'\((\d+)\%\)', mpcstatus2)
     
