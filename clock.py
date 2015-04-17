@@ -9,6 +9,8 @@ import string
 import sys
 import subprocess
 
+import re
+
 import time
 import ImageDraw
 from PIL import Image
@@ -28,6 +30,7 @@ font = ImageFont.load("helvR08.pil")
 
 #print "Current temp is " + gettemp(url)  +" degrees."
 count = 0
+volume = 0
 
 while True:
     
@@ -54,7 +57,7 @@ while True:
 
 #Weather Area:
     
-
+    print(count)
 
     if count % 1000 == 0:
         yahoo_result = pywapi.get_weather_from_yahoo('97210', 'imperial')
@@ -145,27 +148,38 @@ while True:
     draw.text((19,6), drawstring2, font=font, fill=red)
     
 #MPC Volume Area:
+    
+    #volume = subprocess.check_output("mpc status | grep volume", shell=True, stderr=subprocess.STDOUT)  
+    #time.sleep(1)
+    #volume = volume[7:volume.find("%")]
+    #volume = int(volume)
+    #volume = int(re.search(r"\d+\%", volume)[:-1])
 
-    # def get_mpc_status():
-    #mpc_status = os.getenv(mpc_status, os.system("mpc status"))
-    #mpc_status2 = str(mpc_status)
-    #print mpc_status
-    #return "mpc_status[7:10]: ", mpc_status[7:10]
+    
+    mpcstatus = str(os.system("mpc status"))
+    print(mpcstatus)
+    match = re.match(r'.*(\d+)\%', mpcstatus)
+    print(match)
+    
+    print(repr(mpcstatus))
+    print(type(mpcstatus))
+    
+    print(repr(match))
+    print(type(match))
+    
 
-    #get_mpc_status()
     
-   # def display_volume():  
-    '''volume = subprocess.check_output("mpc status | grep volume", shell=True, stderr=subprocess.STDOUT)  
-    volume = volume[9:volume.find("%")]
-    volume = int(volume)
-    print volume
+    if match and match.groups():
+        volume = int(match.groups()[0])
+        
+    if volume is not None:
+        print(volume)
     
-    #volume = "13%"
     
-  
-    if volume <= 6:
-        draw.line([(0,15), (0 ,15)], fill=128)
-        print volume
+    if volume <= 0:
+        print("volume is less than 0%")    
+    elif volume <= 6:
+        draw.line((0,15) + (0 ,15), fill=128)
     elif volume <= 12:
         draw.line((0,14) + (0 ,15), fill=128)
     elif volume <= 18:
@@ -174,12 +188,31 @@ while True:
         draw.line((0,12) + (0 ,15), fill=128)
     elif volume <= 31:
         draw.line((0,11) + (0 ,15), fill=128)
+    elif volume <= 37:
+        draw.line((0,10) + (0 ,15), fill=128)
+    elif volume <= 43:
+        draw.line((0,9) + (0 ,15), fill=128)
     elif volume <= 50:
-        draw.line((0,14) + (0 ,15), fill=128)
-   
+        draw.line((0,8) + (0 ,15), fill=128)
+    elif volume <= 56:
+        draw.line((0,7) + (0 ,15), fill=128)
+    elif volume <= 62:
+        draw.line((0,6) + (0 ,15), fill=128)
+    elif volume <= 68:
+        draw.line((0,5) + (0 ,15), fill=128)
+    elif volume <= 75:
+        draw.line((0,4) + (0 ,15), fill=128)
+    elif volume <= 81:
+        draw.line((0,3) + (0 ,15), fill=128)
+    elif volume <= 87:
+        draw.line((0,2) + (0 ,15), fill=128)
+    elif volume <= 93:
+        draw.line((0,1) + (0 ,15), fill=128)
+    elif volume <= 95:
+        draw.line((0,0) + (0 ,15), fill=128)
     else:
-        draw.text((6,-1), volume, font=font, fill="orange")
-        print volume
-    '''
+        draw.text((6,-1), str(volume), font=font, fill="orange")
+        print(volume)
+    
     
     matrix.SetImage(image.im.id)
