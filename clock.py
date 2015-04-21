@@ -32,10 +32,18 @@ font = ImageFont.load("helvR08.pil")
 count = 0
 volume = 0
 
+oldimage = None
+
+status = {"time": None, "weather": None, "temp": None, "volume": None, "progressbar": None}
+
+NewStatus = {"time": None, "weather": None, "temp": None, "volume": None, "progressbar": None}
+ 
+
+ 
 while True:
     
     
-    #time.sleep(1000)
+    time.sleep(1)
     
     white = (255,255,255)
     red = (255,0,0)
@@ -57,7 +65,7 @@ while True:
 
 #Weather Area:
     
-    print(count)
+    #print(count)
 
     if count % 1000 == 0:
         yahoo_result = pywapi.get_weather_from_yahoo('97210', 'imperial')
@@ -66,18 +74,22 @@ while True:
     
     #print "Yahoo says: It is " + string.lower(yahoo_result['condition']['text']) + " and " + yahoo_result['condition']['temp'] + "F now in Portland.\n\n"
 
-    print(count)
+    #print(count)
     
     weather_condition = string.lower(yahoo_result['condition']['text']) 
     
+    NewStatus["weather"] = weather_condition
+    
     weather_temp = yahoo_result['condition']['temp']
+    
+    NewStatus["temp"] = weather_temp
     
     #print(yahoo_result)
     
     #print weather_temp
     
     if weather_temp >= "70":
-        draw.text((-1,-3), weather_temp, font=font, fill="red")
+        draw.text((-1,-1), weather_temp, font=font, fill="red")
         draw.ellipse((9,2) + (10, 3), fill="red")
     elif weather_temp >= "60":
         draw.text((-1,-1), weather_temp, font=font, fill="orange")
@@ -156,63 +168,67 @@ while True:
     #volume = int(re.search(r"\d+\%", volume)[:-1])
 
     
-    mpcstatus = str(os.system("mpc status"))
-    print(mpcstatus)
-    match = re.match(r'.*(\d+)\%', mpcstatus)
-    print(match)
-    
+    mpcstatus = subprocess.check_output("mpc status", shell=True, stderr=subprocess.STDOUT)
     print(repr(mpcstatus))
-    print(type(mpcstatus))
+    match = re.search(r'(\d+)\%', mpcstatus)
+    #print(match)
+    
+    """print(repr(mpcstatus))
+    print(type(mpcstatus))"""
     
     print(repr(match))
     print(type(match))
     
-
+ 
     
-    if match and match.groups():
+    if match:
         volume = int(match.groups()[0])
         
-    if volume is not None:
-        print(volume)
+        print("volume = {volume}".format(volume = volume))
+        
+         
+        if volume <= 0:
+            print("volume is less than 0%")    
+        elif volume <= 6:
+            draw.line((0,15) + (0 ,15), fill=128)
+        elif volume <= 12:
+            draw.line((0,14) + (0 ,15), fill=128)
+        elif volume <= 18:
+            draw.line((0,13) + (0 ,15), fill=128)
+        elif volume <= 25:
+            draw.line((0,12) + (0 ,15), fill=128)
+        elif volume <= 31:
+            draw.line((0,11) + (0 ,15), fill=128)
+        elif volume <= 37:
+            draw.line((0,10) + (0 ,15), fill=128)
+        elif volume <= 43:
+            draw.line((0,9) + (0 ,15), fill=128)
+        elif volume <= 50:
+            draw.line((0,8) + (0 ,15), fill=128)
+        elif volume <= 56:
+            draw.line((0,7) + (0 ,15), fill=128)
+        elif volume <= 62:
+            draw.line((0,6) + (0 ,15), fill=128)
+        elif volume <= 68:
+            draw.line((0,5) + (0 ,15), fill=128)
+        elif volume <= 75:
+            draw.line((0,4) + (0 ,15), fill=128)
+        elif volume <= 81:
+            draw.line((0,3) + (0 ,15), fill=128)
+        elif volume <= 87:
+            draw.line((0,2) + (0 ,15), fill=128)
+        elif volume <= 93:
+            draw.line((0,1) + (0 ,15), fill=128)
+        elif volume <= 95:
+            draw.line((0,0) + (0 ,15), fill=128)
+        else:
+            draw.text((6,-1), str(volume), font=font, fill="orange")
+            print('volume outside range (else)')
     
     
-    if volume <= 0:
-        print("volume is less than 0%")    
-    elif volume <= 6:
-        draw.line((0,15) + (0 ,15), fill=128)
-    elif volume <= 12:
-        draw.line((0,14) + (0 ,15), fill=128)
-    elif volume <= 18:
-        draw.line((0,13) + (0 ,15), fill=128)
-    elif volume <= 25:
-        draw.line((0,12) + (0 ,15), fill=128)
-    elif volume <= 31:
-        draw.line((0,11) + (0 ,15), fill=128)
-    elif volume <= 37:
-        draw.line((0,10) + (0 ,15), fill=128)
-    elif volume <= 43:
-        draw.line((0,9) + (0 ,15), fill=128)
-    elif volume <= 50:
-        draw.line((0,8) + (0 ,15), fill=128)
-    elif volume <= 56:
-        draw.line((0,7) + (0 ,15), fill=128)
-    elif volume <= 62:
-        draw.line((0,6) + (0 ,15), fill=128)
-    elif volume <= 68:
-        draw.line((0,5) + (0 ,15), fill=128)
-    elif volume <= 75:
-        draw.line((0,4) + (0 ,15), fill=128)
-    elif volume <= 81:
-        draw.line((0,3) + (0 ,15), fill=128)
-    elif volume <= 87:
-        draw.line((0,2) + (0 ,15), fill=128)
-    elif volume <= 93:
-        draw.line((0,1) + (0 ,15), fill=128)
-    elif volume <= 95:
-        draw.line((0,0) + (0 ,15), fill=128)
+    if image.im == oldimage:
+        print("pass")
     else:
-        draw.text((6,-1), str(volume), font=font, fill="orange")
-        print(volume)
-    
-    
-    matrix.SetImage(image.im.id)
+        oldimage == image.im.copy()
+        #print("hi")
+        matrix.SetImage(image.im.id)
