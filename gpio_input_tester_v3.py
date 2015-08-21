@@ -1,6 +1,6 @@
 import time
 
-longpress_time = 0.3
+longpress_time = 1
 try:
     import RPi.GPIO as GPIO
 except ImportError:
@@ -21,7 +21,7 @@ class GPIOManager():
 
         # Variables to control if it is a longpress
         self.down_time_previous = 0
-        self.down_time_next = 0
+        self.down_time_next = 1
         self.down_time_main = 0
         self.down_time_vol_up = 0
         self.down_time_vol_down = 0
@@ -37,8 +37,7 @@ class GPIOManager():
                                   GPIO.BOTH, callback=self.next, bouncetime=30)
 
             # Previous Button
-            GPIO.setup(pins['pin_button_previous'], GPIO.IN,
-                       pull_up_down=GPIO.PUD_UP)
+            GPIO.setup(pins['pin_button_previous'], GPIO.IN)
             GPIO.add_event_detect(pins['pin_button_previous'], GPIO.BOTH,
                                   callback=self.previous, bouncetime=30)
 

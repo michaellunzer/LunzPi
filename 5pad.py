@@ -9,19 +9,19 @@ pad0 = 18
 pad1 = 25
 pad2 = 24
 pad3 = 19
-#pad4 = 0
+pad4 = 10
  
 GPIO.setup(pad0, GPIO.IN)
 GPIO.setup(pad1, GPIO.IN)
 GPIO.setup(pad2, GPIO.IN)
 GPIO.setup(pad3, GPIO.IN)
-#GPIO.setup(pad4, GPIO.IN)
+GPIO.setup(pad4, GPIO.IN)
  
 pad0alreadyPressed = False
 pad1alreadyPressed = False
 pad2alreadyPressed = False
 pad3alreadyPressed = False
-#pad4alreadyPressed = False
+pad4alreadyPressed = False
  
  
 while True:
@@ -29,7 +29,7 @@ while True:
     pad1pressed = not GPIO.input(pad1)
     pad2pressed = not GPIO.input(pad2)
     pad3pressed = not GPIO.input(pad3)
-    #pad4pressed = not GPIO.input(pad4)
+    pad4pressed = not GPIO.input(pad4)
     
     if pad0pressed and not pad0alreadyPressed:
         print "Pad 0 pressed // Prev"
@@ -51,9 +51,9 @@ while True:
         os.system("mpc volume -5")
     pad3alreadyPressed = pad3pressed
  
-    """if pad4pressed and not pad4alreadyPressed:
+    if pad4pressed and not pad4alreadyPressed:
         print "Pad 4 pressed // vol +5"
         os.system("mpc volume +5")
-    pad4alreadyPressed = pad4pressed"""
+    pad4alreadyPressed = pad4pressed
  
     time.sleep(0.1)
