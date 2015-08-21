@@ -1,6 +1,10 @@
 import RPi.GPIO as GPIO
 import time
 import os
+import string
+import sys
+import subprocess
+import re
  
 GPIO.setmode(GPIO.BCM)
  
@@ -43,7 +47,17 @@ while True:
  
     if pad2pressed and not pad2alreadyPressed:
         print "Pad 2 pressed // Play/Pause"
-        os.system("mpc toggle")
+        #os.system("mpc toggle")
+        mpcstatus = subprocess.check_output("mpc status", shell=True, stderr=subprocess.STDOUT)
+        match = re.search(r'\[p', mpcstatus)
+        print(mpcstatus)
+        print(match)
+        if match: 
+            os.system("mpc toggle")
+        else: 
+            os.system("mpc clear")
+            os.system("mpc add spotify:user:michaellunzer:playlist:53WupSpTZzYgLhG5wYPZ6t")
+            os.system("mpc play")
     pad2alreadyPressed = pad2pressed
  
     if pad3pressed and not pad3alreadyPressed:
