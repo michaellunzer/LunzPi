@@ -2,6 +2,8 @@
 import csv
 import urllib
 
+import atexit
+
 import os
 import pywapi
 import string
@@ -37,6 +39,7 @@ red = (255,0,0)
 black = (0,0,0)
 lightblue = (0,221,237)
 blue = "blue"
+mint = (146, 224, 173)
 
 red1 = (229, 1, 18)
 red2 = (181, 11, 23)
@@ -46,21 +49,29 @@ red4 = (61, 0, 4)
 #ColorLocations
 
 VolumeColor = red1
-ProgressbarColor = red2
-TimeColor = red3
-AMPMColor = red4
+ProgressbarColor = mint
+TimeColor = blue
+AMPMColor = red
 
+# Clear matrix on exit.  Otherwise it's annoying if you need to break and
+# fiddle with some code while LEDs are blinding you.
+
+def clearOnExit():
+    matrix.Clear()
+
+atexit.register(clearOnExit)
 
  
 while True:
     
     
-    time.sleep(1)
+    time.sleep(2)
     
-    white = (255,255,255)
-    red = (255,0,0)
-    black = (0,0,0)
-    lightblue = (0,221,237)
+    # white = (255,255,255)
+    # red = (255,0,0)
+    # black = (0,0,0)
+    # lightblue = (0,221,237)
+    #mint = (146, 224, 173)
     
     image = Image.new("RGB", (32, 16), (black))
 
@@ -72,26 +83,34 @@ while True:
     
     #print(count)
 
-    if count % 1000 == 0:
-        yahoo_result = pywapi.get_weather_from_yahoo('97210', 'imperial')
+    #if count % 1000 == 0:
+      #  yahoo_result = pywapi.get_weather_from_yahoo('94062', 'imperial')
         
-    count+=1
+    #count+=1
     
     #print "Yahoo says: It is " + string.lower(yahoo_result['condition']['text']) + " and " + yahoo_result['condition']['temp'] + "F now in Portland.\n\n"
 
     #print(count)
     
-    weather_condition = string.lower(yahoo_result['condition']['text']) 
+    #weather_condition = string.lower(yahoo_result['condition']['text']) 
+
+    weather_condition = "fair"
+
+    #print(weather_condition)
     
-    NewStatus["weather"] = weather_condition
+    #NewStatus["weather"] = weather_condition
     
-    weather_temp = yahoo_result['condition']['temp']
+    #weather_temp = yahoo_result['condition']['temp']
+
+    weather_temp = "61"
+
+    #print(weather_temp)
     
-    NewStatus["temp"] = weather_temp
+    #NewStatus["temp"] = weather_temp
     
     #print(yahoo_result)
     
-    #print weather_temp
+    
     
     if weather_temp >= "70":
         draw.text((0,-1), weather_temp, font=font, fill="red")
@@ -120,6 +139,12 @@ while True:
         draw.ellipse((18, 0) +(22, 4), fill="white")
         
     elif weather_condition == "mostly cloudy":
+        draw.ellipse((30, 0) +(34, 4), fill="grey")
+        draw.ellipse((25, 2) +(29, 6), fill="grey")
+        draw.ellipse((21, 0) +(25, 4), fill="grey")
+
+#need to draw windy!!!!!~~~~
+    elif weather_condition == "mostly cloudy/windy":
         draw.ellipse((30, 0) +(34, 4), fill="grey")
         draw.ellipse((25, 2) +(29, 6), fill="grey")
         draw.ellipse((21, 0) +(25, 4), fill="grey")
@@ -184,8 +209,7 @@ while True:
         volume = int(match.groups()[0])
         
         #print("volume = {volume}".format(volume = volume))
-        
-         
+
         if volume <= 0:
             print("volume is less than 0%")    
         elif volume <= 6:
@@ -307,9 +331,9 @@ while True:
     
     
     
-    if image.im == oldimage:
-        print("pass")
-    else:
-        oldimage == image.im.copy()
-        #print("hi")
-        matrix.SetImage(image.im.id)
+    # if image.im == oldimage:
+    #     print("pass")
+    # else:
+    #     oldimage == image.im.copy()
+    #     #print("hi")
+        matrix.SetImage(image.im.id) #write to the screen

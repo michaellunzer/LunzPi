@@ -47,7 +47,6 @@ while True:
  
     if pad2pressed and not pad2alreadyPressed:
         print "Pad 2 pressed // Play/Pause"
-        #os.system("mpc toggle")
         mpcstatus = subprocess.check_output("mpc status", shell=True, stderr=subprocess.STDOUT)
         match = re.search(r'\[p', mpcstatus)
         print(mpcstatus)
