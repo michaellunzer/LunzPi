@@ -44,7 +44,7 @@ def LunzPiClock():
         draw = ImageDraw.Draw(image)
 
 
-        drawstring1 = time.strftime("%I:%M:%S") 
+        drawstring1 = time.strftime("%I:%M") 
         drawstring2 = time.strftime("%p")
     #Clock Area:
         draw.text((-1,0), drawstring1, font=font, fill="blue")

@@ -65,7 +65,7 @@ atexit.register(clearOnExit)
 while True:
     
     
-    time.sleep(2)
+    time.sleep(1)
     
     # white = (255,255,255)
     # red = (255,0,0)
@@ -83,26 +83,26 @@ while True:
     
     #print(count)
 
-    #if count % 1000 == 0:
-      #  yahoo_result = pywapi.get_weather_from_yahoo('94062', 'imperial')
+    if count % 1000 == 0:
+        yahoo_result = pywapi.get_weather_from_yahoo('94062', 'imperial')
         
-    #count+=1
+        count+=1
     
     #print "Yahoo says: It is " + string.lower(yahoo_result['condition']['text']) + " and " + yahoo_result['condition']['temp'] + "F now in Portland.\n\n"
 
     #print(count)
     
-    #weather_condition = string.lower(yahoo_result['condition']['text']) 
+        weather_condition = string.lower(yahoo_result['condition']['text']) 
 
-    weather_condition = "fair"
+    #weather_condition = "fair"
 
-    #print(weather_condition)
+        print(weather_condition)
     
     #NewStatus["weather"] = weather_condition
     
     #weather_temp = yahoo_result['condition']['temp']
 
-    weather_temp = "61"
+    #weather_temp = "61"
 
     #print(weather_temp)
     
@@ -111,22 +111,23 @@ while True:
     #print(yahoo_result)
     
     
+#Weather Temp Area
     
-    if weather_temp >= "70":
-        draw.text((0,-1), weather_temp, font=font, fill="red")
-        draw.ellipse((11,1) + (12, 1), fill="red")
-    elif weather_temp >= "60":
-        draw.text((0,-1), weather_temp, font=font, fill="orange")
-        draw.ellipse((9,2) + (10, 3), fill="red")
-    elif weather_temp >= "50":
-        draw.text((0,-1), weather_temp, font=font, fill="yellow")
-        draw.ellipse((9,2) + (10, 3), fill="red")
-    elif weather_temp >= "40":
-        draw.text((0,-1), weather_temp, font=font, fill=lightblue)
-        draw.ellipse((9,2) + (10, 3), fill="red")
-    else:
-        draw.text((-1,-1), weather_temp, font=font, fill="blue")
-        draw.ellipse((9,2) + (10, 3), fill="red")
+    # if weather_temp >= "70":
+    #     draw.text((0,-1), weather_temp, font=font, fill="red")
+    #     draw.ellipse((11,1) + (12, 1), fill="red")
+    # elif weather_temp >= "60":
+    #     draw.text((0,-1), weather_temp, font=font, fill="orange")
+    #     draw.ellipse((9,2) + (10, 3), fill="red")
+    # elif weather_temp >= "50":
+    #     draw.text((0,-1), weather_temp, font=font, fill="yellow")
+    #     draw.ellipse((9,2) + (10, 3), fill="red")
+    # elif weather_temp >= "40":
+    #     draw.text((0,-1), weather_temp, font=font, fill=lightblue)
+    #     draw.ellipse((9,2) + (10, 3), fill="red")
+    # else:
+    #     draw.text((-1,-1), weather_temp, font=font, fill="blue")
+    #     draw.ellipse((9,2) + (10, 3), fill="red")
     
     #draw.text((-1,-1), weather_temp, font=font, fill="green")
     
